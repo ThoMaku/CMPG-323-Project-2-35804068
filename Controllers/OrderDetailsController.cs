@@ -168,6 +168,21 @@ namespace CMPG323_Project2.Controllers
         private bool OrderDetailExists(short id)
         {
           return (_context.OrderDetails?.Any(e => e.OrderDetailsId == id)).GetValueOrDefault();
+
         }*/
+        [HttpGet("api/Order/{orderId}/Products")]
+        public IActionResult GetProductsForOrders(int orderId)
+        {
+            var products = _context.OrderDetails
+                .Where(p => p.OrderId == orderId)
+                .ToList();
+
+            if (products == null || products.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(products);
+        }
     }
 }

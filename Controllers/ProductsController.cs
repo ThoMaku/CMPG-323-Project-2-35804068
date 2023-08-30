@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CMPG323_Project2.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace CMPG323_Project2.Controllers
 {
@@ -17,146 +18,112 @@ namespace CMPG323_Project2.Controllers
         {
             _context = context;
         }
-
-        /*// GET: Products
-        public async Task<IActionResult> Index()
-        {
-              return _context.Products != null ? 
-                          View(await _context.Products.ToListAsync()) :
-                          Problem("Entity set 'CMPG323Project2Context.Products'  is null.");
-        }
-
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(short? id)
-        {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-        // GET: Products/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,UnitsInStock")] Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(product);
-        }
-
-        // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(short? id)
-        {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
-        }
-
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("ProductId,ProductName,ProductDescription,UnitsInStock")] Product product)
-        {
-            if (id != product.ProductId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(product);
-        }
-
-        // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(short? id)
-        {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(short id)
+        //GET: Products
+        [HttpGet("Products")]
+        public async Task<ActionResult<Product>> Index()
         {
             if (_context.Products == null)
             {
-                return Problem("Entity set 'CMPG323Project2Context.Products'  is null.");
+                return NotFound();
             }
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            else
             {
-                _context.Products.Remove(product);
+                var products = await _context.Products.ToListAsync();
+                return View(products);
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
         }
 
-        private bool ProductExists(short id)
+        // GET: Products/Details/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> Details(short? id)
         {
-          return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
-        }*/
+            if (id == null || _context.Products == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+        // POST: Products
+        [HttpPost("Products")]
+        public async Task<ActionResult<Product>> PostProducts(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Index), new { productId = product.ProductId }, product);
+        }
+
+        //PATCH: Products
+        [HttpPatch("Product/{id:int}")]
+        public IActionResult PatchProduct(int id, [FromBody] JsonPatchDocument<Product> productPatch)
+        {
+            if (productPatch == null)
+            {
+                return BadRequest("The JSON Patch document is empty.");
+            }
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            productPatch.ApplyTo(product);
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return View(product);
+        }
+
+        private bool ProductExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        //DELETE: Products/5
+        [HttpDelete("Products")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            if (!ProductExists(id))
+            {
+                return NotFound();
+            }
+            if (_context.Products == null)
+            {
+                return NotFound();
+            }
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

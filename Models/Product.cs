@@ -16,5 +16,6 @@ namespace CMPG323_Project2.Models
         public int? UnitsInStock { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public int OrderId { get; internal set; }
     }
 }
