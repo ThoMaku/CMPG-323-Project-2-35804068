@@ -18,7 +18,7 @@ namespace CMPG323_Project2.Controllers
             _context = context;
         }
 
-        // GET: Orders
+        /*// GET: Orders
         public async Task<IActionResult> Index()
         {
             var cMPG323Project2Context = _context.Orders.Include(o => o.Customer);
@@ -162,6 +162,6 @@ namespace CMPG323_Project2.Controllers
         private bool OrderExists(short id)
         {
           return (_context.Orders?.Any(e => e.OrderId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

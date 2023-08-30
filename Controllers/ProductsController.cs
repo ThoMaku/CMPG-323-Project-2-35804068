@@ -18,7 +18,7 @@ namespace CMPG323_Project2.Controllers
             _context = context;
         }
 
-        // GET: Products
+        /*// GET: Products
         public async Task<IActionResult> Index()
         {
               return _context.Products != null ? 
@@ -157,6 +157,6 @@ namespace CMPG323_Project2.Controllers
         private bool ProductExists(short id)
         {
           return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

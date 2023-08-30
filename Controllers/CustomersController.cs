@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using CMPG323_Project2.Models;
 using System.Collections;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.DiaSymReader;
 
 namespace CMPG323_Project2.Controllers
 {
@@ -67,121 +69,67 @@ namespace CMPG323_Project2.Controllers
             return CreatedAtAction(nameof(Index), new {customerId = customer.CustomerId}, customer);
         }
 
-        /*// GET: Customers/Create
-        [HttpGet("Create")]
-        public IActionResult Create()
+        //PATCH: Customers
+        [HttpPatch("{id:int}")]
+        public IActionResult PatchCustomer(int id, [FromBody] JsonPatchDocument<Customer> customerPatch)
         {
-            return View();
-        }
-
-        // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
-        {
-            if (_context.Customers == null)
+            if (customerPatch == null)
             {
-                return Problem("Entity set 'CMPG323Project2DBContext.Stores'  is null.");
+                return BadRequest("The JSON Patch document is empty.");
             }
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer    );
-        }
-
-
-        // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(short? id)
-        {
-            if (id == null || _context.Customers == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return View(customer);
-        }
-
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("CustomerId,CustomerTitle,CustomerName,CustomerSurname,CellPhone")] Customer customer)
-        {
-            if (id != customer.CustomerId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.CustomerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
-        }
-
-        // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(short? id)
-        {
-            if (id == null || _context.Customers == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = _context.Customers.Find(id);
             if (customer == null)
             {
                 return NotFound();
             }
 
+            customerPatch.ApplyTo(customer);
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                if (!CustomerExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return View(customer);
         }
 
-        // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(short id)
+        private bool CustomerExists(int id)
         {
-            if (_context.Customers == null)
-            {
-                return Problem("Entity set 'CMPG323Project2Context.Customers'  is null.");
-            }
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer != null)
-            {
-                _context.Customers.Remove(customer);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            throw new NotImplementedException();
         }
 
-        private bool CustomerExists(short id)
+        //DELETE: Customers/5
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
-          return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
-        }*/
+            if (!CustomerExists(id))
+            {
+                return NotFound();
+            }
+            if (_context.Customers == null)
+            {
+                return NotFound();
+            }
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
