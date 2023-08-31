@@ -39,7 +39,7 @@ namespace CMPG323_Project2.Controllers
         }
 
         // GET: Orders/Details/5
-        [HttpGet("{id}")]
+        [HttpGet("Orders/{id}")]
         public async Task<ActionResult<Order>> Details(short? id)
         {
             if (id == null || _context.Orders == null)
@@ -68,7 +68,7 @@ namespace CMPG323_Project2.Controllers
         }
 
         //PATCH: Orders
-        [HttpPatch("{id:int}")]
+        [HttpPatch("Orders/{id:int}")]
         public IActionResult PatchOrder(short id, [FromBody] JsonPatchDocument<Order> orderPatch)
         {
             if (orderPatch == null)
