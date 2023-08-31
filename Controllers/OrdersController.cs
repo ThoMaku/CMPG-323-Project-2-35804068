@@ -66,7 +66,7 @@ namespace CMPG323_Project2.Controllers
 
         //PATCH: Orders
         [HttpPatch("{id:int}")]
-        public IActionResult PatchOrder(int id, [FromBody] JsonPatchDocument<Order> orderPatch)
+        public IActionResult PatchOrder(short id, [FromBody] JsonPatchDocument<Order> orderPatch)
         {
             if (orderPatch == null)
             {
@@ -98,14 +98,14 @@ namespace CMPG323_Project2.Controllers
             return View(order);
         }
 
-        private bool OrderExists(int id)
+        private bool OrderExists(short id)
         {
-            throw new NotImplementedException();
+            return _context.Orders.Any(o => o.OrderId == id);
         }
 
         //DELETE: Orders/5
-        [HttpDelete("Orders")  ]
-        public async Task<IActionResult> DeleteOrder(int id)
+        [HttpDelete("Orders/{id}")  ]
+        public async Task<IActionResult> DeleteOrder(short id)
         {
             if (!OrderExists(id))
             {

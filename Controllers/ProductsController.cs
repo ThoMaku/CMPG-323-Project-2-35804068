@@ -65,7 +65,7 @@ namespace CMPG323_Project2.Controllers
 
         //PATCH: Products
         [HttpPatch("Product/{id:int}")]
-        public IActionResult PatchProduct(int id, [FromBody] JsonPatchDocument<Product> productPatch)
+        public IActionResult PatchProduct(short id, [FromBody] JsonPatchDocument<Product> productPatch)
         {
             if (productPatch == null)
             {
@@ -97,14 +97,14 @@ namespace CMPG323_Project2.Controllers
             return View(product);
         }
 
-        private bool ProductExists(int id)
+        private bool ProductExists(short id)
         {
-            throw new NotImplementedException();
+            return _context.Products.Any(p => p.ProductId == id);
         }
 
         //DELETE: Products/5
-        [HttpDelete("Products")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpDelete("Products/{id}")]
+        public async Task<IActionResult> DeleteProduct(short id)
         {
             if (!ProductExists(id))
             {
