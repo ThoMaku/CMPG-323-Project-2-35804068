@@ -35,7 +35,7 @@ namespace CMPG323_Project2.Controllers
 
         }
 
-        /*// GET: Orders/Details/5
+        // GET: Orders/Details/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> Details(short? id)
         {
@@ -52,7 +52,7 @@ namespace CMPG323_Project2.Controllers
             }
 
             return View(order);
-        }*/
+        }
 
         // POST: Orders
         [HttpPost("Orders")]

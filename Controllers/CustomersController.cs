@@ -25,7 +25,7 @@ namespace CMPG323_Project2.Controllers
         }
 
         //GET: Customers
-        [HttpGet]
+        [HttpGet("Customers")]
         public async Task<ActionResult<Customer>> Index()
         {
             if (_context.Customers == null)
@@ -37,7 +37,7 @@ namespace CMPG323_Project2.Controllers
                 var customers = await _context.Customers.ToListAsync();
                 return View(customers);
             }
-            
+
         }
 
         // GET: Customers/Details/5
@@ -60,13 +60,13 @@ namespace CMPG323_Project2.Controllers
         }
 
         // POST: Customers
-        [HttpPost]
+        [HttpPost("Customers")]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(Index), new {customerId = customer.CustomerId}, customer);
+            return CreatedAtAction(nameof(Index), new { customerId = customer.CustomerId }, customer);
         }
 
         //PATCH: Customers
@@ -89,7 +89,7 @@ namespace CMPG323_Project2.Controllers
             {
                 _context.SaveChanges();
             }
-            catch(DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 if (!CustomerExists(id))
                 {
@@ -109,7 +109,7 @@ namespace CMPG323_Project2.Controllers
         }
 
         //DELETE: Customers/5
-        [HttpDelete]
+        [HttpDelete("Customers")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             if (!CustomerExists(id))
