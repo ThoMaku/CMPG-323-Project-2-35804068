@@ -1,0 +1,11 @@
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\CMPG323_Project2.exe
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\CMPG323_Project2.dll
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\CMPG323_Project2.deps.json
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\CMPG323_Project2.runtimeconfig.json
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\CMPG323_Project2.pdb
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Makunyane\Downloads\CMPG 323\CMPG323_Project2\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
