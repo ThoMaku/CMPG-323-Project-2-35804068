@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CMPG323_Project2.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace CMPG323_Project2.Controllers
 {
+    [Authorize]
     public class OrderDetailsController : Controller
     {
         private readonly CMPG323Project2Context _context;

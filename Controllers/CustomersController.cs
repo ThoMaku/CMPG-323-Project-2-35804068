@@ -10,9 +10,12 @@ using CMPG323_Project2.Models;
 using System.Collections;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.DiaSymReader;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace CMPG323_Project2.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : Controller
