@@ -71,7 +71,7 @@ namespace CMPG323_Project2.Controllers
 
         //PATCH: Customers
         [HttpPatch("{id:int}")]
-        public IActionResult PatchCustomer(int id, [FromBody] JsonPatchDocument<Customer> customerPatch)
+        public IActionResult PatchCustomer(short id, [FromBody] JsonPatchDocument<Customer> customerPatch)
         {
             if (customerPatch == null)
             {
@@ -103,14 +103,14 @@ namespace CMPG323_Project2.Controllers
             return View(customer);
         }
 
-        private bool CustomerExists(int id)
+        private bool CustomerExists(short id)
         {
-            throw new NotImplementedException();
+            return _context.Customers.Any(c => c.CustomerId == id);
         }
 
         //DELETE: Customers/5
-        [HttpDelete("Customers")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        [HttpDelete("Customers/{id}")]
+        public async Task<IActionResult> DeleteCustomer(short id)
         {
             if (!CustomerExists(id))
             {
