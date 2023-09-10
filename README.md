@@ -1,4 +1,8 @@
 # CMPG-323-Project-2-35804068
+
+# Link of project hosted on Azure
+https://cmpg323project2-35804068.azurewebsites.net/swagger/index.html
+
 # What my project is about and how stakeholders are going to use the report
 This is a project about the impementation of web services that supports Create, Read, Update and Delete operations. This RESTful API will be designed to provide a way to interact with resources over the internet using HTTP methods. 
 
