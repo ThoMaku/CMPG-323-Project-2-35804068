@@ -24,7 +24,7 @@ namespace CMPG323_Project2.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Persist Security Info=False;User ID=admin_35804068;Password=Monza%9905;Initial Catalog=CMPG323-Project2;Data Source=zaazrcmpg323-sql.database.windows.net");
+            optionsBuilder.UseSqlServer("");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
